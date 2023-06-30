@@ -62,22 +62,6 @@
 
 <template>
 	<div class="fullDom iModel">
-		<!--		<model-gltf-->
-		<!--			ref="homeModelVisible"-->
-		<!--			:src="indoorFileUrl"-->
-		<!--			:other-three-mod="otherThreeMod"-->
-		<!--			:cameraPosition="cameraPosition"-->
-		<!--			:lights="lights"-->
-		<!--			:camera-size="10"-->
-		<!--			:backgroundAlpha="0"-->
-		<!--			:controlsOptions="controlsOptions"-->
-		<!--			:choose-group="true"-->
-		<!--			@load="onLoad"-->
-		<!--			@onModel="onModel"-->
-		<!--			@click="onClick"-->
-		<!--			@dblclick="dblclick"-->
-		<!--			@ready-camera="readyCamera"-->
-		<!--		></model-gltf>-->
 		<model-edit
 			ref="homeModelVisible"
 			:src="indoorFileUrl"
