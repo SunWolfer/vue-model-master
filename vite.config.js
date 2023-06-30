@@ -1,10 +1,14 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import autoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [vue()],
+	plugins: [vue(),autoImport({
+		imports: ['vue'],
+		dts: true,
+	})],
 	resolve: {
 		// https://cn.vitejs.dev/config/#resolve-alias
 		alias: {

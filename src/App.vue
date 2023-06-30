@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 	import LoadModel from './components/LoadModel/index.vue'
 	import NodeLine from './components/NodeLine/index.vue'
 </script>

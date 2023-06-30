@@ -1,7 +1,6 @@
 <script setup>
 	import ModelGltf from '../VueThree/model-gltf.vue'
 	import useThree from '../../hooks/useThree'
-	import { nextTick, onMounted, ref } from 'vue'
 	import useThreeExport from '@/components/VueThree/hooks/useThreeExport'
 	import ModelFbx from '@/components/VueThree/model-fbx.vue'
 	import ModelEdit from '@/components/VueThree/ModelEdit/index.vue'
