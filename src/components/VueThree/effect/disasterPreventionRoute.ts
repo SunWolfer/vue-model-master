@@ -1,5 +1,4 @@
 // 避灾路线
-import { createdLine, createMotionTrack } from '@/components/VueThree/editGeometry'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import {
 	AnimationMixer,
@@ -7,12 +6,13 @@ import {
 	Clock,
 	Euler,
 	Matrix4,
-	Mesh,
+	Mesh, MeshBasicMaterial,
 	Object3D,
-	Quaternion,
+	Quaternion, RepeatWrapping, TextureLoader,
 	Vector3,
 } from 'three'
 import useEditModel, { IMoveTexture } from '@/components/VueThree/hooks/useEditModel'
+import {TubeGeometry} from "three/src/geometries/TubeGeometry";
 
 export class DisasterPreventionRoute {
 	wrapper: Object3D
@@ -38,7 +38,7 @@ export class DisasterPreventionRoute {
 		this.renderRoute()
 	}
 	initRoute(pointObj: DisPreRoute) {
-		let { curve } = createMotionTrack(pointObj.points)
+		let { curve } = useEditModel().createMotionTrack(pointObj.points)
 		let loader = new GLTFLoader()
 		let _self = this
 
@@ -150,3 +150,30 @@ export class DisasterPreventionRoute {
 		cancelAnimationFrame(this.routeReqId!)
 	}
 }
+
+import __assets_images_three_line_jpg from './image/line.jpg'
+//创建避灾路线流动线
+function createdLine(points: ICoordinates[], radius: number) {
+	// 	创建纹理和材质
+	let texture = new TextureLoader().load(__assets_images_three_line_jpg)
+	texture.wrapS = texture.wrapT = RepeatWrapping //每个都重复
+	texture.repeat.set(1, 1)
+	texture.needsUpdate = true
+	let material = new MeshBasicMaterial({
+		map: texture,
+		// side: BackSide,
+		transparent: false,
+	})
+
+	// 创建一条平滑的三维样条曲线
+	let {curve} = useEditModel().createMotionTrack(points)
+	// 创建管道
+	let tubeGeometry = new TubeGeometry(curve, 400, radius)
+	let mesh = new Mesh(tubeGeometry, material)
+
+	return {
+		texture,
+		mesh,
+	}
+}
+

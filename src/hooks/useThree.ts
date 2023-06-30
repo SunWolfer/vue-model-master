@@ -1,7 +1,6 @@
 import ModelGltf from '../components/VueThree/model-gltf.vue'
 import { Vector3 } from 'three'
-import { ref, reactive, nextTick, watch } from 'vue'
-import { Point } from '../components/VueThree/editGeometry'
+import { ref, reactive, nextTick } from 'vue'
 import { IOtherThreeMod } from '@/components/VueThree/model-mixin.vue'
 import { OperateModel } from '@/components/VueThree/IModelOperate'
 

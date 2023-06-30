@@ -1,5 +1,17 @@
-import { CatmullRomCurve3, Euler, Matrix4, Mesh, Object3D, Quaternion, Vector3 } from 'three'
+import {
+	BufferAttribute,
+	BufferGeometry,
+	CatmullRomCurve3, DoubleSide,
+	Euler,
+	Matrix4,
+	Mesh, MeshBasicMaterial,
+	Object3D,
+	Quaternion, TextureLoader,
+	Vector3
+} from 'three'
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls'
+import material1 from './image/01.jpg'
+import wall1 from './image/0002.jpg'
 
 export interface IMoveTexture {
 	// 运动模型
@@ -70,10 +82,91 @@ const useEditModel = () => {
 		}
 	}
 
+
+// 创建运动轨迹(三维样条曲线)
+	function createMotionTrack(
+		curvePoints: ICoordinates[],
+		parameter = {
+			curveType: 'catmullrom', //曲线类型
+			closed: false, //设置是否闭环
+			tension: 0, //设置线的张力，0为无弧度折线
+		} as CatmullRomCurve3,
+	) {
+		let curveList = []
+		for (let i = 0; i < curvePoints.length; i++) {
+			const point = curvePoints[i]
+			curveList.push(new Vector3(point.x, point.y, point.z))
+		}
+		let curve: CatmullRomCurve3 = new CatmullRomCurve3(
+			curveList,
+			parameter.closed,
+			parameter.curveType,
+			parameter.tension,
+		)
+		return { curve }
+	}
+
+	//生成平面
+	function createPlaneGeometry(points: Point[], scene: Object3D) {
+		let IMeshes = []
+		for (let i = 0; i < points.length; i++) {
+			const c1 = points[i].points
+			const color = points[i].color
+			const material = points[i].type === 1 ? '' : 1
+			// 生成两个三角形的顶点集合
+			const p1 = [c1[0], c1[1], c1[2]]
+			const p2 = [c1[0], c1[2], c1[3]]
+			IMeshes.push(createdMesh(p1, color, material))
+			IMeshes.push(createdMesh(p2, color, material))
+		}
+		scene.add(...IMeshes)
+	}
+
+	function createdMesh(points: number[][], color?: string, IMaterial?: any) {
+		// 每一个三角形，需要三个顶点，每个顶点需要3个值
+		const geometry = new BufferGeometry()
+		const vertices = new Float32Array(9)
+		for (let j = 0; j < 9; j++) {
+			if (j < 3) {
+				vertices[j] = points[0][j]
+			} else if (j < 6) {
+				vertices[j] = points[1][j - 3]
+			} else if (j < 9) {
+				vertices[j] = points[2][j - 6]
+			}
+		}
+
+		geometry.setAttribute('position', new BufferAttribute(vertices, 3))
+
+		let material, texture
+		if (IMaterial) {
+			texture = new TextureLoader().load(material1)
+		} else {
+			// material = new MeshBasicMaterial({ color: color, side: DoubleSide })
+			texture = new TextureLoader().load(wall1)
+		}
+		if (texture) {
+			material = new MeshBasicMaterial({ map: texture, side: DoubleSide })
+		}
+
+		//初始化存放颜色信息的序列化数组
+		const colors = new Float32Array([0.5, 0.3, 0.6, 0.5, 0.3, 0.6, 0.5, 0.3, 0.6])
+		geometry.setAttribute('color', new BufferAttribute(colors, 3))
+
+		const indexs = new Uint16Array([0, 1, 2])
+		geometry.index = new BufferAttribute(indexs, 1)
+		const uvs = new Uint16Array([0, 1, 1, 1, 1, 0, 0, 0])
+		geometry.setAttribute('uv', new BufferAttribute(uvs, 2))
+		const mesh = new Mesh(geometry, material)
+		return mesh
+	}
+
 	return {
 		modelMove,
 		customAnimation,
 		texturesUpdate,
+		createMotionTrack,
+		createPlaneGeometry
 	}
 }
 

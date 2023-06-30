@@ -9,7 +9,6 @@ import {
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
-import { createPlaneGeometry, Point } from './editGeometry'
 import useThreeExport from '@/components/VueThree/hooks/useThreeExport'
 import { IFires } from './effect/IFires'
 import { DisasterPreventionRoute } from '@/components/VueThree/effect/disasterPreventionRoute'
@@ -94,7 +93,7 @@ export class OperateModel {
 	}
 	// 	创建自定义平面
 	addGeometry(points: Point[]) {
-		createPlaneGeometry(points, this.wrapper)
+		useEditModel().createPlaneGeometry(points, this.wrapper)
 	}
 	// 	添加自定义动画
 	addAnimations(animateData: IAnimateData) {

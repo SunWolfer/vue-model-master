@@ -57,7 +57,6 @@
 			// })
 		})
 	}
-	function labelClick() {}
 </script>
 
 <template>
@@ -78,11 +77,6 @@
 			@dblclick="dblclick"
 			@ready-camera="readyCamera"
 		>
-			<template #label>
-				<!--				<div :id="i.id" class="nameLabel" v-for="i in nameList">-->
-				<!--					<span @click="labelClick">{{ i.label }}</span>-->
-				<!--				</div>-->
-			</template>
 		</model-edit>
 	</div>
 </template>

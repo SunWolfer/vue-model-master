@@ -49,3 +49,10 @@ type ISize = {
 interface IFiresPosition extends ICoordinates {
 	size: number // 大小
 }
+
+//平面点
+interface Point {
+	points: number[][]
+	color?: string
+	type: number
+}
