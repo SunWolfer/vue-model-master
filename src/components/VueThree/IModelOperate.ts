@@ -1,18 +1,28 @@
 import {
+	BufferAttribute,
+	BufferGeometry,
+	DoubleSide,
 	Mesh,
+	MeshBasicMaterial,
 	MeshPhongMaterial,
 	Object3D,
 	PerspectiveCamera,
 	Scene,
 	SphereGeometry,
+	TextureLoader,
 	WebGLRenderer,
 } from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
-import useThreeExport from '@/components/VueThree/hooks/useThreeExport'
-import { IFires } from './effect/IFires'
-import { DisasterPreventionRoute } from '@/components/VueThree/effect/disasterPreventionRoute'
-import useEditModel from '@/components/VueThree/hooks/useEditModel'
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import {CSS2DObject} from 'three/examples/jsm/renderers/CSS2DRenderer'
+import useThreeExport from './hooks/useThreeExport'
+import {IFires} from './effect/IFires'
+import {
+	DisasterPreventionRoute
+} from './effect/disasterPreventionRoute'
+import useEditModel from './hooks/useEditModel'
+
+import material1 from './image/01.jpg'
+import wall1 from './image/0002.jpg'
 
 export class OperateModel {
 	// 主体模型
@@ -93,7 +103,7 @@ export class OperateModel {
 	}
 	// 	创建自定义平面
 	addGeometry(points: Point[]) {
-		useEditModel().createPlaneGeometry(points, this.wrapper)
+		createPlaneGeometry(points, this.wrapper)
 	}
 	// 	添加自定义动画
 	addAnimations(animateData: IAnimateData) {
@@ -203,4 +213,59 @@ export class OperateModel {
 		this.myFires.unMountClass()
 		cancelAnimationFrame(this.editId!)
 	}
+}
+
+
+//生成平面
+function createPlaneGeometry(points: Point[], scene: Object3D) {
+	let IMeshes = []
+	for (let i = 0; i < points.length; i++) {
+		const c1 = points[i].points
+		const color = points[i].color
+		const material = points[i].type === 1 ? '' : 1
+		// 生成两个三角形的顶点集合
+		const p1 = [c1[0], c1[1], c1[2]]
+		const p2 = [c1[0], c1[2], c1[3]]
+		IMeshes.push(createdMesh(p1, color, material))
+		IMeshes.push(createdMesh(p2, color, material))
+	}
+	scene.add(...IMeshes)
+}
+
+function createdMesh(points: number[][], color?: string, IMaterial?: any) {
+	// 每一个三角形，需要三个顶点，每个顶点需要3个值
+	const geometry = new BufferGeometry()
+	const vertices = new Float32Array(9)
+	for (let j = 0; j < 9; j++) {
+		if (j < 3) {
+			vertices[j] = points[0][j]
+		} else if (j < 6) {
+			vertices[j] = points[1][j - 3]
+		} else if (j < 9) {
+			vertices[j] = points[2][j - 6]
+		}
+	}
+
+	geometry.setAttribute('position', new BufferAttribute(vertices, 3))
+
+	let material, texture
+	if (IMaterial) {
+		texture = new TextureLoader().load(material1)
+	} else {
+		// material = new MeshBasicMaterial({ color: color, side: DoubleSide })
+		texture = new TextureLoader().load(wall1)
+	}
+	if (texture) {
+		material = new MeshBasicMaterial({ map: texture, side: DoubleSide })
+	}
+
+	//初始化存放颜色信息的序列化数组
+	const colors = new Float32Array([0.5, 0.3, 0.6, 0.5, 0.3, 0.6, 0.5, 0.3, 0.6])
+	geometry.setAttribute('color', new BufferAttribute(colors, 3))
+
+	const indexS = new Uint16Array([0, 1, 2])
+	geometry.index = new BufferAttribute(indexS, 1)
+	const uvs = new Uint16Array([0, 1, 1, 1, 1, 0, 0, 0])
+	geometry.setAttribute('uv', new BufferAttribute(uvs, 2))
+	return new Mesh(geometry, material)
 }

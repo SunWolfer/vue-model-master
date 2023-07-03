@@ -10,7 +10,7 @@
 		Mesh,
 		MathUtils,
 	} from 'three'
-	import { ref, onMounted, onBeforeUnmount, onUnmounted } from 'vue'
+	import { ref, onMounted, onUnmounted } from 'vue'
 
 	const props = defineProps({
 		src: {

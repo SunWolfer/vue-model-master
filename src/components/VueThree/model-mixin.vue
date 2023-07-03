@@ -16,7 +16,6 @@
 		WebGLRenderer,
 		WebGLRendererParameters,
 		SRGBColorSpace,
-		Mesh,
 	} from 'three'
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 	import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
@@ -39,7 +38,7 @@
 
 	import { OperateModel } from './IModelOperate'
 	import { TransformControls } from 'three/examples/jsm/controls/TransformControls'
-	import useEditModel from '@/components/VueThree/hooks/useEditModel'
+	import useEditModel from './hooks/useEditModel'
 
 	const DEFAULT_GL_OPTIONS = {
 		antialias: true,

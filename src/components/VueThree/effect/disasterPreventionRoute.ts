@@ -1,18 +1,15 @@
 // 避灾路线
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import {TubeGeometry} from "three/src/geometries/TubeGeometry";
 import {
 	AnimationMixer,
-	CatmullRomCurve3,
 	Clock,
-	Euler,
-	Matrix4,
 	Mesh, MeshBasicMaterial,
 	Object3D,
-	Quaternion, RepeatWrapping, TextureLoader,
-	Vector3,
+	RepeatWrapping,
+	TextureLoader,
 } from 'three'
-import useEditModel, { IMoveTexture } from '@/components/VueThree/hooks/useEditModel'
-import {TubeGeometry} from "three/src/geometries/TubeGeometry";
+import useEditModel, { IMoveTexture } from '../hooks/useEditModel'
 
 export class DisasterPreventionRoute {
 	wrapper: Object3D
@@ -102,39 +99,6 @@ export class DisasterPreventionRoute {
 			this.lineMeshList.splice(index, 1)
 			this.moveModelList.splice(index, 1)
 		}
-	}
-	// 	物体沿路径移动
-	moveOnCurve(
-		moveCurve: CatmullRomCurve3,
-		moveModel: Object3D,
-		initialPosition: number,
-		velocity: number,
-	) {
-		if (moveCurve === null || moveModel === null) return 0
-		if (initialPosition <= 1 - velocity) {
-			const point = moveCurve.getPointAt(initialPosition) //获取样条曲线指定点坐标
-			const pointBox = moveCurve.getPointAt(initialPosition + velocity) //获取样条曲线指定点坐标
-
-			if (point && pointBox) {
-				moveModel.position.set(point.x, point.y, point.z)
-
-				let targetPos = pointBox //目标位置点
-				let offsetAngle = 0 //目标移动时的朝向偏移
-
-				// //以下代码在多段路径时可重复执行
-				let mtx = new Matrix4() //创建一个4维矩阵
-				// .lookAt ( eye : Vector3, target : Vector3, up : Vector3 ) : this,构造一个旋转矩阵，从eye 指向 target，由向量 up 定向。
-				mtx.lookAt(moveModel.position, targetPos, moveModel.up) //设置朝向
-				mtx.multiply(new Matrix4().makeRotationFromEuler(new Euler(0, offsetAngle, 0)))
-				let toRot = new Quaternion().setFromRotationMatrix(mtx) //计算出需要进行旋转的四元数值
-				moveModel.quaternion.slerp(toRot, 0.2)
-			}
-
-			initialPosition += velocity
-		} else {
-			initialPosition = 0
-		}
-		return initialPosition
 	}
 	renderRoute() {
 		this.routeReqId = requestAnimationFrame(this.renderRoute.bind(this))

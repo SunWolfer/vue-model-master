@@ -3,11 +3,10 @@
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 	import mixin from '../model-mixin.vue'
 	import EditArea from './editArea.vue'
-	import { IModelEdit } from '@/components/VueThree/ModelEdit/IModelEdit'
+	import { IModelEdit } from '../ModelEdit/IModelEdit'
 	import { TransformControls } from 'three/examples/jsm/controls/TransformControls'
 	import { Mesh, Object3D, Vector3 } from 'three'
-	import useEditModel from '../hooks/useEditModel'
-	import DeleteDialog from '@/components/VueThree/ModelEdit/deleteDialog.vue'
+	import DeleteDialog from '../ModelEdit/deleteDialog.vue'
 
 	export default defineComponent({
 		name: 'model-edit',
@@ -208,7 +207,7 @@
 
 				// 判断移动
 				if (intersected && this.isTSControl) {
-					this.dealRoadWay = useEditModel().modelMove(
+					this.dealRoadWay = this.modelMove(
 						intersected.object,
 						this.object!,
 						this.transformControl!,
@@ -276,6 +275,26 @@
 				this.selectedObjects = []
 				this.showDeleteDia = false
 			},
+    //   巷道节点移动
+      modelMove(obj: any, object: Object3D, transformControl: TransformControls){
+        let dealRoadWay: Mesh[] | Object3D[] = []
+        transformControl.detach()
+        if (obj.isMesh && obj.name !== 'planeModel' && obj.name.split('-').length === 1) {
+          if (obj !== transformControl.object) {
+            transformControl.attach(obj)
+          }
+          let tName = obj.name + ''
+          // 添加待移动模型
+          object.traverse((child: any) => {
+            if (child.name.indexOf(tName) !== -1) {
+              if (child.name.split('-').length > 1) {
+                dealRoadWay.push(child)
+              }
+            }
+          })
+        }
+        return dealRoadWay
+      }
 		},
 		beforeUnmount() {
 			for (let i = 0; i < this.CartoonInterval.length; i++) {

@@ -1,6 +1,6 @@
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
-import { AnimationClip, Object3D } from 'three'
+import { AnimationClip } from 'three'
 import { Group } from 'three/src/Three'
 import { ref } from 'vue'
 const useThreeExport = () => {

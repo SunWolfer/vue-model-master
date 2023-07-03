@@ -21,9 +21,6 @@ function getCenter(object: Object3D) {
 	return box.getCenter(new Vector3())
 }
 
-// function lightsDiff(lights, oldLights) {
-// }
-
 function toIndexed(bufferGeometry: BufferGeometry) {
 	const rawPositions = bufferGeometry.getAttribute('position').array
 
