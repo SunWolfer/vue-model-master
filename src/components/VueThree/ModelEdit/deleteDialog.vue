@@ -148,7 +148,7 @@
 		line-height: 1;
 		white-space: nowrap;
 		cursor: pointer;
-		-webkit-appearance: none;
+		appearance: none;
 		text-align: center;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
@@ -176,7 +176,7 @@
 		line-height: 1;
 		white-space: nowrap;
 		cursor: pointer;
-		-webkit-appearance: none;
+		appearance: none;
 		text-align: center;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;

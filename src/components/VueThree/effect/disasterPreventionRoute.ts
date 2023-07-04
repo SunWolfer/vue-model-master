@@ -1,6 +1,6 @@
 // 避灾路线
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import {TubeGeometry} from "three/src/geometries/TubeGeometry";
+import {TubeGeometry} from "three/src/geometries/TubeGeometry"
 import {
 	AnimationMixer,
 	Clock,
@@ -10,6 +10,7 @@ import {
 	TextureLoader,
 } from 'three'
 import useEditModel, { IMoveTexture } from '../hooks/useEditModel'
+import __assets_images_three_line_jpg from '../image/line.jpg'
 
 export class DisasterPreventionRoute {
 	wrapper: Object3D
@@ -110,7 +111,6 @@ export class DisasterPreventionRoute {
 	}
 }
 
-import __assets_images_three_line_jpg from './image/line.jpg'
 //创建避灾路线流动线
 function createdLine(points: ICoordinates[], radius: number) {
 	// 	创建纹理和材质
