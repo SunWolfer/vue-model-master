@@ -209,7 +209,7 @@ export class IModelEdit {
 		let genModelList = []
 		// 被拆分的巷道
 		let splitModelList = []
-		// 生成2节点
+		// 生成2个节点
 		// 连接两巷道
 		if (lens !== 1 && lene !== 1) {
 			name = `${this.startDrawPoint + ''}-${this.startDrawPoint + 1 + ''}`
@@ -226,7 +226,7 @@ export class IModelEdit {
 			]
 			this.startDrawPoint = this.startDrawPoint + 2
 		}
-		// 生成1节点
+		// 生成一个节点
 		if ((lens === 1 && lene === 0) || (lens === 1 && lene === 2)) {
 			name = `${this.startDrawModel[0]}-${this.startDrawPoint + ''}`
 			nodeArray = [
@@ -248,7 +248,7 @@ export class IModelEdit {
 			]
 			this.startDrawPoint = this.startDrawPoint + 1
 		}
-		// 生成0节点
+		// 不生成节点
 		if (lens === 1 && lene === 1) {
 			name = `${this.startDrawModel[0]}-${this.endDrawModel[0]}`
 		}

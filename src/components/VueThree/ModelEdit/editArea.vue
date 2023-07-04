@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, reactive, defineEmits } from 'vue'
+	import { ref, reactive } from 'vue'
 
 	const btnList = reactive([
 		{

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { defineComponent } from 'vue'
-	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+  import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 	import mixin from './model-mixin.vue'
 
 	export default defineComponent({
@@ -66,7 +66,7 @@
 				this.reportProgress('start')
 				this.loader.load(
 					this.src,
-					(data) => {
+					(data:GLTF) => {
 						this.reportProgress('end')
 						data.scene.traverse(function (object: any) {
 							if (object.isMesh) {
@@ -79,11 +79,11 @@
 						this.addObject(data.scene)
 						this.loadOtherLen++
 					},
-					(event) => {
+					(event:ProgressEvent) => {
 						this.reportProgress('progress', event)
 						this.$emit('progress', event)
 					},
-					(event) => {
+					(event:ErrorEvent) => {
 						this.reportProgress('end')
 						this.$emit('error', event)
 					},
@@ -94,7 +94,7 @@
 				this.reportProgress('start')
 				for (let i = 0; i < this.modelList.length; i++) {
 					const oneObj: any = this.modelList[i]
-					this.loader.load(oneObj.src, (data) => {
+					this.loader.load(oneObj.src, (data:GLTF) => {
 						this.loadLen++
 						this.addObject(data.scene)
 					})

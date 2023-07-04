@@ -44,11 +44,6 @@
 		antialias: true,
 		alpha: true,
 	}
-	export interface IOtherThreeMod {
-		type: string // 类型
-		src: string // 文件路径
-		initAnimation?: boolean // 初始化动画
-	}
 
 	export default defineComponent({
 		props: {

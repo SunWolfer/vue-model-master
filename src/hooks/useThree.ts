@@ -1,7 +1,6 @@
 import ModelGltf from '../components/VueThree/model-gltf.vue'
-import { Vector3 } from 'three'
+import {Object3D, Vector3} from 'three'
 import { ref, reactive, nextTick } from 'vue'
-import { IOtherThreeMod } from '@/components/VueThree/model-mixin.vue'
 import { OperateModel } from '@/components/VueThree/IModelOperate'
 
 // 3D文件路径
@@ -160,7 +159,7 @@ const useThree = () => {
 			if (index !== -1) {
 				for (let j = index; j < datas.length; j++) {
 					if (object) {
-						object.traverse((item) => {
+						object.traverse((item:Object3D) => {
 							if (item.name === datas[j]) {
 								positions.push(item.position)
 							}
