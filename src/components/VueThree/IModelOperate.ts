@@ -210,7 +210,6 @@ export class OperateModel {
 	unmountEditModel() {
 		this.myDisPreRoute.unMountClass()
 		this.myFires.unMountClass()
-		this.myFires.unMountClass()
 		cancelAnimationFrame(this.editId!)
 	}
 }

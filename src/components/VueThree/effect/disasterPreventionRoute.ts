@@ -103,12 +103,7 @@ export class DisasterPreventionRoute {
 	renderRoute() {
 		this.routeReqId = requestAnimationFrame(this.renderRoute.bind(this))
 		// 避灾路线
-		for (let i = 0; i < this.animateList.length; i++) {
-			if (typeof this.animateList[i] === 'function') {
-				let animate: () => void = this.animateList[i]
-				animate()
-			}
-		}
+		useEditModel().customAnimation(this.animateList)
 	}
 	unMountClass() {
 		cancelAnimationFrame(this.routeReqId!)

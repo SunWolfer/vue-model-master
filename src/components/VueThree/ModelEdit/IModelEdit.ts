@@ -21,6 +21,7 @@ import usePoint from './IPoint'
 import { TubeGeometry } from 'three/src/geometries/TubeGeometry'
 // 风流图片
 import ___image_direction_png from '../image/direction.png'
+import useEditModel from "../hooks/useEditModel";
 interface wind {
 	obj: Mesh
 	texture: Texture
@@ -460,13 +461,7 @@ export class IModelEdit {
 	}
 	renderRoute() {
 		this.editReqId = requestAnimationFrame(this.renderRoute.bind(this))
-
-		for (let i = 0; i < this.animateList.length; i++) {
-			if (typeof this.animateList[i] === 'function') {
-				let animate: () => void = this.animateList[i]
-				animate()
-			}
-		}
+		useEditModel().customAnimation(this.animateList)
 	}
 	unMountClass() {
 		cancelAnimationFrame(this.editReqId!)
